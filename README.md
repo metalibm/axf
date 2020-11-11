@@ -1,7 +1,9 @@
-# axf
-Approximation eXchange Format, generic file format to import / export mathematical function approximations
+# AXF (version 0.1)
+Approximation eXchange Format, a.k.a AXF, is a generic file format to import / export mathematical function approximations
+It is designed to exchange elementary function implementation between tools, for example between an approximation generation tool (e.g. sollya http://sollya.gforge.inria.fr/) and a function implementation generator tool (e.g. metalibm https://github.com/kalray/metalibm).
 
 # Example
+The following code snippet is an extract of a piecewise approximation of tanh(x) over [0.125, 16.125]. Only the first two sub-intervals are listed here.
 ```
 !PieceWiseApprox
 bound_high: '16.125'
@@ -36,6 +38,8 @@ approx_list:
 ```
 # Specification
 
+This section describes the syntax of an **AXF** file.
+
 ### Numerical values and their derivatives
 
 integers are stored by their decimal encoding (e.g. two is 2).
@@ -46,7 +50,7 @@ Multiple encoding are accepted:
 - scientific notation (e.g. '1.6e-7)
 - hexadecimal notation (e.g. '0x1.ap-3')
 
-Intervals are encoded by '[inf_bound;sup_bound]'
+Intervals are encoded by '[inf_bound;sup_bound]', where `inf_bound` (respectively `sup_bound`) is the numerical value encoding the lower (resp. upper) bound of the interval.
 
 boolean are encoded by *true* or *false*
 
@@ -56,8 +60,14 @@ The supported formats are: `float`, `double`.
 
 ### Polynomial
 
-user-defined yaml class `!Polynomial` with a single field `coeff_field`
+user-defined yaml class `!Polynomial` with a single field `coeff_map`.
+`coeff_map` is a dictionnay of coefficient index -> coefficient value.
 
+```
+!Polynomial
+    coeff_map: {0: 0x1.fd5992p-4, 1: 0x1.f81526p-1, 2: -0x1.f4009ep-4, 3: -0x1.425e24p-2,
+      4: -0x1.760b04p3, 5: 0x1.a38f14p5, 6: 0x1.ae64eap16, 7: -0x1.b2fafap18}
+```
 ### Simple Polynomial approximation
 
 user-defined yaml class `!SimplePolyApprox` with the following fields:
@@ -97,8 +107,5 @@ Elementary functions:
 - `erf`
 - `gamma`
 
-### error_target
-### description
 
-#### Polynomials
 
