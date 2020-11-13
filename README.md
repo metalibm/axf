@@ -1,40 +1,46 @@
-# AXF (version 0.1)
+# AXF (version 0.2)
 Approximation eXchange Format, a.k.a AXF, is a generic file format to import / export mathematical function approximations
 It is designed to exchange elementary function implementation between tools, for example between an approximation generation tool (e.g. sollya http://sollya.gforge.inria.fr/) and a function implementation generator tool (e.g. metalibm https://github.com/kalray/metalibm).
 
 # Example
 The following code snippet is an extract of a piecewise approximation of tanh(x) over [0.125, 16.125]. Only the first two sub-intervals are listed here.
 ```
-!PieceWiseApprox
-bound_high: '16.125'
-bound_low: '0.125'
-error_threshold: '5.9604644775390625e-8'
-even: false
-function: tanh(_x_)
-max_degree: 7
-num_intervals: 2048
-odd: false
-approx_list:
-- !SimplePolyApprox
-  absolute: true
-  approx_error: '2.7402990785775974270337621608727434791043137206093e-9'
-  degree_list: [0, 1, 2, 3, 4, 5, 6, 7]
-  fct: tanh(_x_ + 0.125)
-  format_list: [float, float, float, float, float, float, float, float]
-  interval: '[0.125;0.1328125]'
-  poly: !Polynomial
-    coeff_map: {0: 0x1.fd5992p-4, 1: 0x1.f81526p-1, 2: -0x1.f4009ep-4, 3: -0x1.425e24p-2,
-      4: -0x1.760b04p3, 5: 0x1.a38f14p5, 6: 0x1.ae64eap16, 7: -0x1.b2fafap18}
-- !SimplePolyApprox
-  absolute: true
-  approx_error: '2.9820045200028283815690142383890874707928188475846e-9'
-  degree_list: [0, 1, 2, 3, 4, 5, 6, 7]
-  fct: tanh(_x_ + 0.1328125)
-  format_list: [float, float, float, float, float, float, float, float]
-  interval: '[0.1328125;0.140625]'
-  poly: !Polynomial
-    coeff_map: {0: 0x1.0e6974p-3, 1: 0x1.f712ecp-1, 2: -0x1.0a7f7cp-3, 3: -0x1.40643ep-2,
-      4: 0x1.9c7c5ap3, 5: 0x1.17a958p6, 6: -0x1.d45536p16, 7: -0x1.21218cp19}
+{
+    "bound_high": "16.125",
+    "bound_low": "0.125",
+    "class": "!PieceWiseApprox",
+    "error_threshold": "5.9604644775390625e-8",
+    "even": false,
+    "function": "tanh(_x_)",
+    "max_degree": 7,
+    "num_intervals": 2048,
+    "odd": false,
+    "precision": "float",
+    "tag": "",
+    "approx_list": [
+        {
+            "absolute": true,
+            "approx_error": "2.7402990785775974270337621608727434791043137206093e-9",
+            "class": "!SimplePolyApprox",
+            "degree_list": [ 0, 1, 2, 3, 4, 5, 6, 7 ],
+            "format_list": [ "float", "float", "float", "float", "float",
+                "float", "float", "float" ],
+            "function": "tanh(_x_ + 0.125)",
+            "interval": "[0.125;0.1328125]",
+            "poly": {
+                "0": "0.124352999031543731689453125",
+                "1": "0.984536349773406982421875",
+                "2": "-0.122070901095867156982421875",
+                "3": "-0.314812242984771728515625",
+                "4": "-11.6888446807861328125",
+                "5": "52.44486236572265625",
+                "6": "1.101809140625e5",
+                "7": "-4.4541990625e5"
+            }
+        },
+    ...
+    ]
+}
 ```
 # Specification
 
@@ -46,55 +52,61 @@ integers are stored by their decimal encoding (e.g. two is 2).
 
 Other numerical values are encoded by strings starting and finishing with character '.
 Multiple encoding are accepted:
-- decimal notation (e.g. '0.125')
-- scientific notation (e.g. '1.6e-7)
-- hexadecimal notation (e.g. '0x1.ap-3')
+- decimal notation (e.g. `"0.125"`)
+- scientific notation (e.g. `"1.6e-7"`)
+- hexadecimal notation (e.g. `"0x1.ap-3"`)
 
-Intervals are encoded by '[inf_bound;sup_bound]', where `inf_bound` (respectively `sup_bound`) is the numerical value encoding the lower (resp. upper) bound of the interval.
+Intervals are encoded by `"[inf_bound;sup_bound]"`, where `inf_bound` (respectively `sup_bound`) is the numerical value encoding the lower (resp. upper) bound of the interval.
 
 boolean are encoded by *true* or *false*
 
 ### Numerical formats
 
-The supported formats are: `float`, `double`.
+The supported formats are: `"float"`, `"double"`, `"floatfloat"`, `"doubledouble"`.
 
 ### Polynomial
 
-user-defined yaml class `!Polynomial` with a single field `coeff_map`.
-`coeff_map` is a dictionnay of coefficient index -> coefficient value.
+A map with `"class": "!Polynomial"` with a single other field `"coeff_map"`.
+`"coeff_map"` is a map of coefficient index -> coefficient value.
+coefficient index are quoted integers, coefficient values are Numerical values.
 
 ```
-!Polynomial
-    coeff_map: {0: 0x1.fd5992p-4, 1: 0x1.f81526p-1, 2: -0x1.f4009ep-4, 3: -0x1.425e24p-2,
-      4: -0x1.760b04p3, 5: 0x1.a38f14p5, 6: 0x1.ae64eap16, 7: -0x1.b2fafap18}
+{
+    "class": "!Polynomial",
+    "coeff_map": {
+        "0": "0x1.fd5992p-4", "1": "0x1.f81526p-1", "2": "-0x1.f4009ep-4",
+        "3": "-0x1.425e24p-2", "4": "-0x1.760b04p3", "5": "0x1.a38f14p5",
+        "6": "0x1.ae64eap16", "7": "-0x1.b2fafap18"
+    }
+}
 ```
 ### Simple Polynomial approximation
 
-user-defined yaml class `!SimplePolyApprox` with the following fields:
-- `absolute`: boolean indicating if the error is absolute (`true`)or relative (`false`)
-- `approx_error`: string-encoded numerical value, indicating an upper bound the approximation error
-- `degree_list`: list of integer values indicating which were the non-zero index used to generate the polynomial approximation
-- `format_list`: list of numerical formats used to store the polynomial coefficients
-- `interval`: validity interval for the approximation
-- `poly`: actual approximation as a Polynomial object
-- `function`: approximated function expression
+A map with `"class": "!SimplePolyApprox"` with the following fields:
+- `"absolute`: boolean indicating if the error is absolute (`true`)or relative (`false"`)
+- `"approx_error"`: string-encoded numerical value, indicating an upper bound the approximation error
+- `"degree_list"`: list of integer values indicating which were the non-zero index used to generate the polynomial approximation
+- `"format_list"`: list of numerical formats used to store the polynomial coefficients
+- `"interval"`: validity interval for the approximation
+- `"poly"`: actual approximation as a Polynomial object
+- `"function"`: approximated function expression
 
 ### Simple Piecewise approximation
 
-used-defined yaml class `!PieceWiseApprox`, with the following fields:
-- `bound_high`: upper bound of the approximation interval
-- `bound_low`: lower bound of the approximation interval
-- `error_threshold`: upper bound of the approximation error
-- `even`: boolean, are even-indexed coefficients allowed in the polynomial sub-approximations
-- `odd`: boolean, are odd-indexed coefficients allowed in the polynomial sub-approximations
-- `function`: function expression being approximated
-- `max_degree`: maximum polynomial degree accepted for a sub-approximation
-- `num_intervals`: integer, number of sub-intervals dividing the full approximation interval
-- `approx_list`: ordered list of sub-approximation (one per sub-interval)
+A map with `"class": "!PieceWiseApprox"` with the following fields:
+- `"bound_high"`: upper bound of the approximation interval
+- `"bound_low"`: lower bound of the approximation interval
+- `"error_threshold"`: upper bound of the approximation error
+- `"even"`: boolean, are even-indexed coefficients allowed in the polynomial sub-approximations
+- `"odd"`: boolean, are odd-indexed coefficients allowed in the polynomial sub-approximations
+- `"function"`: function expression being approximated
+- `"max_degree"`: maximum polynomial degree accepted for a sub-approximation
+- `"num_intervals"`: integer, number of sub-intervals dividing the full approximation interval
+- `"approx_list"`: ordered list of sub-approximation (one per sub-interval)
 
 ### approximated fct
 
-The syntax for the `function` field expression accepts the following:
+The syntax for the `"function"` field expression accepts the following:
 
 Free variables(:) `_x_`
 Basic operations: `+`, `-`, `*`, `/`
