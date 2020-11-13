@@ -8,6 +8,7 @@ max_degree: 7
 num_intervals: 2048
 odd: false
 precision: float
+tag: "tanh-fp32"
 approx_list:
 - !SimplePolyApprox
   absolute: true
