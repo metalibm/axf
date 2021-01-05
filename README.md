@@ -11,7 +11,7 @@ The following code snippet is an extract of a piecewise approximation of tanh(x)
     "interval": "[0.125;16.125]",
     "class": "!PieceWiseApprox",
     "approx_error": {"type": "absolute", bound: "5.9604644775390625e-8"},
-    "approx_parameter": {
+    "approx_params": {
         "even": false,
         "odd": false,
         "max_degree": 7,
@@ -72,7 +72,7 @@ Each approximation is a map containing at least the following fields:
 
 Other fields are optional:
 - **tag** which permits to give a comprehensive name to an approximation (e.g. `"tanh-fp32"`)
-- **approx_param** which is a class-specific map describing the parameter of the approximation instance
+- **approx_params** which is a class-specific map describing the parameter of the approximation instance
 
 ### Note on error bound
 The bound on the approximation error listed in `approx_error` under the field `bound` is not a target but a realization: an AXF description is only valid if the absolute value of the approximation error of the described scheme is less than or equal to the listed value.
@@ -80,7 +80,7 @@ The bound on the approximation error listed in `approx_error` under the field `b
 ### Simple Polynomial approximation
 
 A map with `class` set to `"!SimplePolyApprox"`.
-The `approx_parameter` is specified as follows:
+The `approx_params` is specified as follows:
 - `"degree_list"`: list of integer values indicating which were the non-zero index used to generate the polynomial approximation
 - `"format_list"`: list of numerical formats used to store the polynomial coefficients
 
@@ -89,7 +89,7 @@ The `approx_parameter` is specified as follows:
 ### Simple Piecewise approximation
 
 A an approximation map with `"class": "!PieceWiseApprox"`.
-The `approx_parameter` is specified as follows:
+The `approx_params` is specified as follows:
 - `"indexing"`: indexing function used to build sub-interval list and to index within it
 - `"even"`: boolean, are even-indexed coefficients allowed in the polynomial sub-approximations
 - `"odd"`: boolean, are odd-indexed coefficients allowed in the polynomial sub-approximations
