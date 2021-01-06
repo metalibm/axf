@@ -10,7 +10,7 @@ The following code snippet is an extract of a piecewise approximation of tanh(x)
     "precision": "float",
     "interval": "[0.125;16.125]",
     "class": "!PieceWiseApprox",
-    "approx_error": {"type": "absolute", bound: "5.9604644775390625e-8"},
+    "approx_error": {"type": "absolute", value: "5.9604644775390625e-8"},
     "approx_params": {
         "even": false,
         "odd": false,
@@ -24,7 +24,7 @@ The following code snippet is an extract of a piecewise approximation of tanh(x)
             "absolute": true,
             "approx_error": {
                 "type": "absolute",
-                "bound": "2.7402990785775974270337621608727434791043137206093e-9",
+                "value": "2.7402990785775974270337621608727434791043137206093e-9",
             },
             "class": "!SimplePolyApprox",
             "approx_param": {
@@ -64,7 +64,7 @@ Each approximation is a map containing at least the following fields:
 - **interval** which stipulates the range where the approximation is valid (e.g. `"[0.125;1.0]"`)
 - **approx_error** field is a map describing the approximation error, it has 2 fields:
     - **type** which indicates which type of error is considered (e.g. `"absolute"`)
-    - **bound** which gives an upper bound on the approximation error (.e.g `"0x1p-23"`)
+    - **value** which gives an upper bound on the approximation error (.e.g `"0x1p-23"`)
 - **function** which gives the expression being approximated (e.g. `"tanh(_x_)"`)
 - **class** which indicates which class of approximation is described (e.g. `"!SimplePolyApprox"`)
 - **precision** which indicates the assumed precision for the approximation results
@@ -75,7 +75,7 @@ Other fields are optional:
 - **approx_params** which is a class-specific map describing the parameter of the approximation instance
 
 ### Note on error bound
-The bound on the approximation error listed in `approx_error` under the field `bound` is not a target but a realization: an AXF description is only valid if the absolute value of the approximation error of the described scheme is less than or equal to the listed value.
+The bound on the approximation error listed in `approx_error` under the field `value` is not a target but a realization: an AXF description is only valid if the absolute value of the approximation error of the described scheme is less than or equal to the listed value.
 
 ### Simple Polynomial approximation
 
