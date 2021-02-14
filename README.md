@@ -1,4 +1,4 @@
-# AXF (version 0.3)
+# AXF (version 0.3.1)
 Approximation eXchange Format, a.k.a AXF, is a generic file format to import / export mathematical function approximations
 It is designed to exchange elementary function implementation between tools, for example between an approximation generation tool (e.g. sollya http://sollya.gforge.inria.fr/) and a function implementation generator tool (e.g. metalibm https://github.com/kalray/metalibm).
 
@@ -58,7 +58,8 @@ The following code snippet is an extract of a piecewise approximation of tanh(x)
 
 This section describes the syntax of an **AXF** file.
 
-Each file contain a list of approximations (one to many).
+Each file contain a main list of approximations.
+Approximations appearing in this main level list are dubbed "top level approximations".
 
 Each approximation is a map containing at least the following fields:
 - **interval** which stipulates the range where the approximation is valid (e.g. `"[0.125;1.0]"`)
@@ -86,6 +87,8 @@ The `approx_params` is specified as follows:
 
 `approx_data` contains a single `!Polynomial object`
 
+"!SimplePolyApprox" can be used as a top-level approximation class.
+
 ### Simple Piecewise approximation
 
 A an approximation map with `"class": "!PieceWiseApprox"`.
@@ -98,6 +101,7 @@ The `approx_params` is specified as follows:
 
 `approx_data` contains a list of `!SimplePolyApprox` approximations.
 
+"!PieceWiseApprox" can be used as a top-level approximation class.
 
 ## Details of field encodings
 
