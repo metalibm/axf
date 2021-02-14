@@ -6,6 +6,7 @@ It is designed to exchange elementary function implementation between tools, for
 The following code snippet is an extract of a piecewise approximation of tanh(x) over [0.125, 16.125]. Only the first two sub-intervals are listed here.
 ```
 {
+    "version": "0.3.1",
     "function": "tanh(_x_)",
     "precision": "float",
     "interval": "[0.125;16.125]",
@@ -74,6 +75,7 @@ Each approximation is a map containing at least the following fields:
 Other fields are optional:
 - **tag** which permits to give a comprehensive name to an approximation (e.g. `"tanh-fp32"`)
 - **approx_params** which is a class-specific map describing the parameter of the approximation instance
+- **version** describes the AXF specification version followed by the description
 
 ### Note on error bound
 The bound on the approximation error listed in `approx_error` under the field `value` is not a target but a realization: an AXF description is only valid if the absolute value of the approximation error of the described scheme is less than or equal to the listed value.
