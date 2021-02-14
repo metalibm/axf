@@ -59,7 +59,7 @@ The following code snippet is an extract of a piecewise approximation of tanh(x)
 
 This section describes the syntax of an **AXF** file.
 
-Each file contain a main list of approximations.
+Each file contains a main list of approximations.
 Approximations appearing in this main level list are dubbed "top level approximations".
 
 Each approximation is a map containing at least the following fields:
@@ -84,8 +84,8 @@ The bound on the approximation error listed in `approx_error` under the field `v
 
 A map with `class` set to `"!SimplePolyApprox"`.
 The `approx_params` is specified as follows:
-- `"degree_list"`: list of integer values indicating which were the non-zero index used to generate the polynomial approximation
-- `"format_list"`: list of numerical formats used to store the polynomial coefficients
+- `"degree_list"`: list of integer values indicating the list of coefficient degrees (in increasing order). Each coefficient whose degree does not appear in this list is assumed to be zero.
+- `"format_list"`: list of numerical formats used to store the polynomial coefficients. There must be as many formats as indexes in `degree_list` (and no more).
 
 `approx_data` contains a single `!Polynomial object`
 
@@ -93,7 +93,7 @@ The `approx_params` is specified as follows:
 
 ### Simple Piecewise approximation
 
-A an approximation map with `"class": "!PieceWiseApprox"`.
+An approximation map with `"class": "!PieceWiseApprox"`.
 The `approx_params` is specified as follows:
 - `"indexing"`: indexing function used to build sub-interval list and to index within it
 - `"even"`: boolean, are even-indexed coefficients allowed in the polynomial sub-approximations
@@ -109,9 +109,9 @@ The `approx_params` is specified as follows:
 
 ### Numerical values and their derivatives
 
-integers are stored by their decimal encoding (e.g. two is 2).
+Integers are stored by their decimal encoding (e.g. two is 2).
 
-Other numerical values are encoded by strings starting and finishing with character '.
+Other numerical values are encoded by strings starting and finishing with character '"'.
 Multiple encodings are accepted:
 - decimal notation (e.g. `"0.125"`)
 - scientific notation (e.g. `"1.6e-7"`)
