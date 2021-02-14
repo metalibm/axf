@@ -22,7 +22,6 @@ The following code snippet is an extract of a piecewise approximation of tanh(x)
     "tag": "",
     "approx_data": [
         {
-            "absolute": true,
             "approx_error": {
                 "type": "absolute",
                 "value": "2.7402990785775974270337621608727434791043137206093e-9",
@@ -79,6 +78,8 @@ Other fields are optional:
 
 ### Note on error bound
 The bound on the approximation error listed in `approx_error` under the field `value` is not a target but a realization: an AXF description is only valid if the absolute value of the approximation error of the described scheme is less than or equal to the listed value.
+
+Currently AXF only supports the description of a single error type per approximation: it is not possible to list both absolute and relative error bounds.
 
 ### Simple Polynomial approximation
 
